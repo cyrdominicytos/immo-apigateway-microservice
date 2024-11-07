@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: immoapigateway
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://AUTHORIZATION-AUTHENTICATION
+          predicates:
+            - Path=/api/user/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:8080"
+            allowedMethods:
+              - GET
+              - POST
+            allowedHeaders:
+              - Content-Type
+              - responseType
+              - Authorization
+            allowCredentials: true
+server:
+  port: 4000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+  instance:
+    hostname: Authorization-Server
+
+gateway:
+  excludedUrl: /api/user, /login
+keyStore:
+  path: keystore.jks
+  password: password
+  alias: auth-server
