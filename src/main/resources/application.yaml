@@ -1,13 +1,13 @@
 spring:
   application:
-    name: immoapigateway
+    name: immo-api-gateway
   cloud:
     gateway:
       routes:
         - id: auth-service
-          uri: lb://AUTHORIZATION-AUTHENTICATION
+          uri: lb://IMMO-AUTHENTIFICATION-SERVER
           predicates:
-            - Path=/api/user/**
+            - Path=/api/auth/**, /api/account/**
       globalcors:
         cors-configurations:
           '[/**]':
@@ -29,12 +29,13 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka-server:8761/eureka
+      defaultZone: http://immo-eureka-server:8761/eureka
   instance:
-    hostname: Authorization-Server
+    hostname: immo-api-gateway
 
 gateway:
-  excludedUrl: /api/user, /login
+  excludedUrl: /api/auth/register, /api/auth/login
+
 keyStore:
   path: keystore.jks
   password: password

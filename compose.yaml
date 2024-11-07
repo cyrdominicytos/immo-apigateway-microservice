@@ -1,9 +1,14 @@
-version: "3.8"
 services:
   immo_apigateway:
-    restart: on-failure
+    restart: no
     build: .
     ports:
       - 4000:4000
     volumes:
       - .m2:/root/.m2
+    networks:
+      - immo-network
+
+networks:
+  immo-network:
+    external: true
